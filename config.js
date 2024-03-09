@@ -1,5 +1,3 @@
-module.exports = {
-    api: {
-        port: process.env.API_PORT || 3000
-    }
-}
+export const api = {
+    port: process.env.API_PORT || 3000
+};

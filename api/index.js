@@ -1,11 +1,17 @@
-const express = require('express');
+import express from "express";
+import bodyParser from "body-parser";
 
-const config = require('../config.js')
-const user = require('./components/user/network')
+
+import { api } from "../config.js";
+import router from "./components/user/network.js"
+
+
 const app = express();
 
-app.use('/api/user', user);
+app.use(bodyParser.json());
 
-app.listen(config.api.port, ()=>{
-    console.log('Api escuchando en el puerto ', config.api.port);
-})
+app.use("/api/user", router);
+
+app.listen(api.port, () => {
+  console.log("Api escuchando en el puerto ", api.port);
+});

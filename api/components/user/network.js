@@ -1,15 +1,45 @@
 //Todas las response en el mismo archivo, capa de red
 
-const express = require('express');
+import { Router } from "express";
 
-const response = require('../../../network/response');
-const controller = require('./controller');
+import handlerRespone from "../../../network/response.js";
+import controller from "./index.js";
 
-const router = express.Router();
+const router = Router();
 
-router.get('/', function (req,res){
-    const lista = controller.list();
-    response.success(req,res,lista,200);
-})
+router.get("/", list);
+router.get("/:id", get);
+router.post("/", upsert);
+router.put("/", upsert);
 
-module.exports = router;
+function list(req, res) {
+  controller.list()
+    .then((lista) => {
+      handlerRespone.success(req, res, lista, 200);
+    })
+    .catch((err) => {
+      handlerRespone.error(req, res, err.message, 500);
+    });
+}
+
+function get(req, res) {
+  controller.get(req.params.id)
+    .then((user) => {
+      handlerRespone.succes(req, res, user, 200);
+    })
+    .catch((err) => {
+      handlerRespone.error(req, res, err.message, 500);
+    });
+}
+
+function upsert(req, res) {
+  controller.upsert(req.body)
+    .then((user) => {
+      handlerRespone.succes(req, res, user, 200);
+    })
+    .catch((err) => {
+      handlerRespone.error(req, res, err.message, 500);
+    });
+}
+
+export default router;

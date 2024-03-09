@@ -1,4 +1,4 @@
-exports.success = function (req,res,message,status){
+ function success(req,res,message,status){
     let statusCode = status || 200;
     let statusMessage = message || '';
     
@@ -9,7 +9,7 @@ exports.success = function (req,res,message,status){
     });
 }
 
-exports.error = function (req,res,message,status){
+function error (req,res,message,status){
     let statusCode = status || 500;
     let statusMessage = message || 'Internal Server Error';
 
@@ -19,3 +19,5 @@ exports.error = function (req,res,message,status){
         body: message,
     });
 }
+
+export default {success,error};
