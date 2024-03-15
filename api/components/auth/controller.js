@@ -1,3 +1,4 @@
+import auth from "../../../auth/index.js";
 const TABLA = "auth";
 
 export default function (injectedStore) {
@@ -6,10 +7,16 @@ export default function (injectedStore) {
     store = require("../../../store/dummy");
   }
 
-  function login(username,password){
-    
+  async function login(username, password) {
+    const data = await store.query(TABLA, { username: username });
+    if (data.password === password) {
+      //Generar token
+      return auth.sign(data);
+    } else {
+      throw new Error("Información invalida");
+    }
   }
-  
+
   function upsert(data) {
     const authData = {
       id: data.id,
@@ -27,5 +34,6 @@ export default function (injectedStore) {
 
   return {
     upsert,
+    login,
   };
 }

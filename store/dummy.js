@@ -9,7 +9,7 @@ const db = {
 
 async function list(table) {
   //siendo asincrona me esta devolviendo tambien una promesa
-  return db[table];
+  return db[table] || [];
 }
 
 async function get(table, id) {
@@ -30,4 +30,11 @@ async function remove(table, id) {
   return true;
 }
 
-export default { list, get, upsert, remove };
+async function query(table, q) {
+  let collection = await list(table);
+  let keys = Object.keys(q);
+  let key = keys[0];
+  return collection.filter((item) => item[key] === q[key])[0] || null;
+}
+
+export default { list, get, upsert, remove, query };
