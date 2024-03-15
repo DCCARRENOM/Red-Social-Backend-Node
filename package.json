@@ -2,7 +2,7 @@
   "name": "proyecto-red-social-node",
   "version": "1.0.0",
   "description": "",
-  "type":"module",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,7 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.18.3",
-    "nanoid": "^5.0.6"
+    "nanoid": "^5.0.6",
+    "swagger-ui-express": "^5.0.0"
   }
 }

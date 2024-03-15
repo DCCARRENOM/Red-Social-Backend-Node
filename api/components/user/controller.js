@@ -1,10 +1,10 @@
-import { nanoid } from "nanoid"; 
+import { nanoid } from "nanoid";
+import auth from "../auth/index.js";
 
 const TABLE = "user";
 
 export default function (injectedStore) {
   let store = injectedStore;
-  console.log(store);
   if (!store) {
     store = require("../../../store/dummy");
   }
@@ -17,9 +17,10 @@ export default function (injectedStore) {
     return store.get(TABLE, id);
   }
 
-  function upsert(body) {
+  async function upsert(body) {
     const user = {
       name: body.name,
+      username: body.username,
     };
 
     if (body.id) {
@@ -28,10 +29,19 @@ export default function (injectedStore) {
       user.id = nanoid();
     }
 
-    return store.upsert(TABLA, user);
+    if (body.password || body.username) {
+      await auth.upsert({
+        id: user.id,
+        username: user.username,
+        password: body.password,
+      });
+    }
+
+    return store.upsert(TABLE, user);
   }
   return {
     list,
     get,
+    upsert,
   };
 }
