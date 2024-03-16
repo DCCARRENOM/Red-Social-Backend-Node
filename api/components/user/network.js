@@ -2,6 +2,7 @@
 
 import { Router } from "express";
 
+import secure from "./secure.js";
 import handlerRespone from "../../../network/response.js";
 import controller from "./index.js";
 
@@ -10,7 +11,7 @@ const router = Router();
 router.get("/", list);
 router.get("/:id", get);
 router.post("/", upsert);
-router.put("/", upsert);
+router.put("/",secure('update'), upsert);
 
 function list(req, res) {
   controller
